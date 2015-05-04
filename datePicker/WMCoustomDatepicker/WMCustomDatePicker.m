@@ -105,21 +105,21 @@
         
         
     }
-    for (int i = DATEPICKER_MINDATE; i<DATEPICKER_MAXDATE; i++) {
+    for (int i = DATEPICKER_MINDATE; i<=DATEPICKER_MAXDATE; i++) {
         [yearArray addObject:[NSString stringWithFormat:@"%d年",i]];
     }
     //最大最小限制
     if (self.maxLimitDate) {
         maxDateModel = [[WMDatepicker_DateModel alloc]initWithDate:self.maxLimitDate];
     }else{
-        self.maxLimitDate = [self dateFromString:@"204912312359" withFormat:@"yyyyMMddHHmm"];
+        self.maxLimitDate = [self dateFromString:[NSString stringWithFormat:@"%d12312359",DATEPICKER_MAXDATE-1] withFormat:@"yyyyMMddHHmm"];
         maxDateModel = [[WMDatepicker_DateModel alloc]initWithDate:self.maxLimitDate];
     }
     //最小限制
     if (self.minLimitDate) {
         minDateModel = [[WMDatepicker_DateModel alloc]initWithDate:self.minLimitDate];
     }else{
-        self.minLimitDate = [self dateFromString:@"197001010000" withFormat:@"yyyyMMddHHmm"];
+        self.minLimitDate = [self dateFromString:[NSString stringWithFormat:@"%d01010000",DATEPICKER_MINDATE] withFormat:@"yyyyMMddHHmm"];
         minDateModel = [[WMDatepicker_DateModel alloc]initWithDate:self.minLimitDate];
     }
     
