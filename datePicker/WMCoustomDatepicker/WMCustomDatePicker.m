@@ -312,8 +312,14 @@
     
     return 0;
 }
-- (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UILabel *)recycledLabel
 {
+    UILabel *customLabel = recycledLabel;
+    if (!customLabel) {
+        customLabel = [[UILabel alloc] init];
+        customLabel.textAlignment = NSTextAlignmentCenter;
+        [customLabel setFont:[UIFont systemFontOfSize:DATEMAXFONT]];
+    }
     UIColor *textColor = [UIColor blackColor];
     NSString *title;
     
@@ -393,8 +399,12 @@
         default:
             break;
     }
+    customLabel.text = title;
+    customLabel.textColor = textColor;
+    return customLabel;
 
-    return [[NSAttributedString alloc]initWithString:title attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:DATEMAXFONT],NSForegroundColorAttributeName:textColor}];
+
+
 }
 #pragma mark -datePickerDelegate
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
