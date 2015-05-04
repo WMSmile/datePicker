@@ -37,9 +37,11 @@ typedef enum{
 @interface WMCustomDatePicker : UIView<UIPickerViewDataSource,UIPickerViewDelegate>
 @property (nonatomic, assign)id<WMCustomDatePickerDelegate>delegate;
 @property (nonatomic, assign) WMDateStyle datePickerStyle;
-@property (nonatomic, retain) NSDate *ScrollToDate;//滚到指定日期
-@property (nonatomic, retain) NSDate *maxLimitDate;//限制最大时间（没有设置默认2049）
-@property (nonatomic, retain) NSDate *minLimitDate;//限制最小时间（没有设置默认1970）
+@property (nonatomic, strong) NSDate *ScrollToDate;//滚到指定日期
+@property (nonatomic, strong) NSDate *maxLimitDate;//限制最大时间（没有设置默认2049）
+@property (nonatomic, strong) NSDate *minLimitDate;//限制最小时间（没有设置默认1970）
+
+@property (nonatomic, strong) NSDate *date;//选择器的时间
 
 - (id)initWithframe:(CGRect)frame Delegate:(id<WMCustomDatePickerDelegate>)delegate PickerStyle:(WMDateStyle)WMDateStyle;
 

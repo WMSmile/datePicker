@@ -168,7 +168,6 @@
     }else{
         dateShow = [NSDate date];
     }
-    
     WMDatepicker_DateModel *model = [[WMDatepicker_DateModel alloc]initWithDate:dateShow];
     
     [self DaysfromYear:[model.year integerValue] andMonth:[model.month integerValue]];
@@ -188,7 +187,9 @@
     NSNumber *day    = [NSNumber numberWithInteger:dayIndex];
     NSNumber *hour   = [NSNumber numberWithInteger:hourIndex];
     NSNumber *minute = [NSNumber numberWithInteger:minuteIndex];
-    
+
+    self.date = [self dateFromString:[NSString stringWithFormat:@"%@%@%@%@%@",yearArray[yearIndex],monthArray[monthIndex],dayArray[dayIndex],hourArray[hourIndex],minuteArray[minuteIndex]] withFormat:@"yyyy年MM月dd日HH时mm分"];//选择器时间
+
     if (self.datePickerStyle == WMDateStyle_YearMonthDayHourMinute)
         return @[year,month,day,hour,minute];
     if (self.datePickerStyle == WMDateStyle_YearMonthDay)
@@ -504,14 +505,14 @@
 #pragma mark - WMdatapickerDelegate代理回调方法
 - (void)playTheDelegate
 {
-    NSDate *date = [self dateFromString:[NSString stringWithFormat:@"%@%@%@%@%@",yearArray[yearIndex],monthArray[monthIndex],dayArray[dayIndex],hourArray[hourIndex],minuteArray[minuteIndex]] withFormat:@"yyyy年MM月dd日HH时mm分"];
-    if ([date compare:self.minLimitDate] == NSOrderedAscending) {
+    self.date = [self dateFromString:[NSString stringWithFormat:@"%@%@%@%@%@",yearArray[yearIndex],monthArray[monthIndex],dayArray[dayIndex],hourArray[hourIndex],minuteArray[minuteIndex]] withFormat:@"yyyy年MM月dd日HH时mm分"];
+    if ([_date compare:self.minLimitDate] == NSOrderedAscending) {
         NSArray *array = [self getNowDate:self.minLimitDate];
         for (int i=0; i<array.count; i++) {
             [myPickerView reloadComponent:i];
             [myPickerView selectRow:[array[i] integerValue] inComponent:i animated:YES];
         }
-    }else if ([date compare:self.maxLimitDate] == NSOrderedDescending){
+    }else if ([_date compare:self.maxLimitDate] == NSOrderedDescending){
         NSArray *array = [self getNowDate:self.maxLimitDate];
         for (int i=0; i<array.count; i++) {
             [myPickerView reloadComponent:i];
@@ -533,7 +534,7 @@
     }
     if ([self.delegate respondsToSelector:@selector(finishDidSelectDatePicker:date:)]) {
         
-        [self.delegate finishDidSelectDatePicker:self date:date];
+        [self.delegate finishDidSelectDatePicker:self date:_date];
     }
 }
 
