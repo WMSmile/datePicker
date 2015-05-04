@@ -16,7 +16,7 @@
 #define DATEPICKER_HOUR 24
 #define DATEPICKER_MINUTE 60
 
-#define DATEPICKER_interval 5//设置分钟时间间隔
+#define DATEPICKER_interval 1//设置分钟时间间隔
 #define DATEMAXFONT 20 //修改最大的文字大小
 
 #define DATE_GRAY [UIColor redColor];
@@ -77,20 +77,25 @@
 //初始化
 - (void)drawRect:(CGRect)rect
 {
-//  初始化数组
+    [self reloadViewsAndData];
+}
+#pragma mark - 初始化以及刷新界面
+-(void)reloadViewsAndData
+{
+    //  初始化数组
     yearArray   = [self ishave:yearArray];
     monthArray  = [self ishave:monthArray];
     dayArray    = [self ishave:dayArray];
     hourArray   = [self ishave:hourArray];
     minuteArray = [self ishave:minuteArray];
     
-//  进行数组的赋值
+    //  进行数组的赋值
     for (int i= 0 ; i<60; i++)
     {
         if (i<24) {
             if (i<12) {
                 [monthArray addObject:[NSString stringWithFormat:@"%d月",i+1]];
-
+                
             }
             [hourArray addObject:[NSString stringWithFormat:@"%02d时",i]];
         }
@@ -117,28 +122,33 @@
         self.minLimitDate = [self dateFromString:@"197001010000" withFormat:@"yyyyMMddHHmm"];
         minDateModel = [[WMDatepicker_DateModel alloc]initWithDate:self.minLimitDate];
     }
-
+    
     //获取当前日期，储存当前时间位置
     NSArray *indexArray = [self getNowDate:self.ScrollToDate];
-    
-    if (!myPickerView) {
-        myPickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-        myPickerView.showsSelectionIndicator = YES;
-        myPickerView.backgroundColor = [UIColor clearColor];
-        myPickerView.delegate = self;
-        myPickerView.dataSource = self;
-        [self addSubview:myPickerView];
+    if (myPickerView) {
+        [myPickerView removeFromSuperview];
     }
+    myPickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    myPickerView.showsSelectionIndicator = YES;
+    myPickerView.backgroundColor = [UIColor clearColor];
+    myPickerView.delegate = self;
+    myPickerView.dataSource = self;
+    [self addSubview:myPickerView];
+    
     //调整为现在的时间
     for (int i=0; i<indexArray.count; i++) {
         [myPickerView selectRow:[indexArray[i] integerValue] inComponent:i animated:NO];
     }
-
     
 
-    
-    
-    
+}
+- (void)setDatePickerStyle:(WMDateStyle)datePickerStyle
+{
+    if (_datePickerStyle!=datePickerStyle) {
+        _datePickerStyle = datePickerStyle;
+        //刷新数据和界面
+        [self reloadViewsAndData];
+    }
 }
 #pragma mark - 初始化赋值操作
 - (NSMutableArray *)ishave:(id)mutableArray

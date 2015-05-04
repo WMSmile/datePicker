@@ -44,7 +44,6 @@
     picker.minLimitDate = [NSDate date];
     _TF.inputView = picker;
     
-
     /*
      
      WMDateStyle_YearMonthDayHourMinute = 0,
@@ -76,6 +75,14 @@
 }
 
 
+/**
+ * 取消输入法
+ */
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesEnded:touches withEvent:event];
+    [self.view endEditing:YES];
+}
 
 
 
