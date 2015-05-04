@@ -71,9 +71,16 @@
 
 - (void)finishDidSelectDatePicker:(WMCustomDatePicker *)datePicker date:(NSDate *)date
 {
-    NSLog(@"%@",date);
+    NSLog(@"%@_____formatterDate == %@",date,[self dateFromString:date withFormat:@"yyMMdd HH:mm"]);
 }
 
+//根据date返回string
+- (NSString *)dateFromString:(NSDate *)date withFormat:(NSString *)format {
+    NSDateFormatter *inputFormatter = [[NSDateFormatter alloc] init];
+    [inputFormatter setDateFormat:format];
+    NSString *dateStr = [inputFormatter stringFromDate:date];
+    return dateStr;
+}
 
 /**
  * 取消输入法

@@ -318,11 +318,11 @@
         customLabel = [[UILabel alloc] init];
         customLabel.textAlignment = NSTextAlignmentCenter;
         [customLabel setFont:[UIFont systemFontOfSize:DATEMAXFONT]];
+        customLabel.adjustsFontSizeToFitWidth = YES;
     }
+    
     UIColor *textColor = [UIColor blackColor];
     NSString *title;
-    
-    
     
     switch (self.datePickerStyle) {
         case WMDateStyle_YearMonthDayHourMinute:{
@@ -401,7 +401,6 @@
             break;
     }
     customLabel.text = title;
-    customLabel.adjustsFontSizeToFitWidth = YES;
     customLabel.textColor = textColor;
     return customLabel;
 }
@@ -523,7 +522,6 @@
     NSString *strWeekDay = [self getWeekDayWithYear:yearArray[yearIndex] month:monthArray[monthIndex] day:dayArray[dayIndex]];
     
     //代理回调
-   
     if ([self.delegate respondsToSelector:@selector(finishDidSelectDatePicker:year:month:day:hour:minute:weekDay:)]) {
         [self.delegate finishDidSelectDatePicker:self
                                             year:yearArray[yearIndex]
@@ -533,17 +531,11 @@
                                           minute:minuteArray[minuteIndex]
                                          weekDay:strWeekDay];
     }
-
     if ([self.delegate respondsToSelector:@selector(finishDidSelectDatePicker:date:)]) {
         
         [self.delegate finishDidSelectDatePicker:self date:date];
     }
 }
-
-
-
-
-
 
 #pragma mark - 数据处理
 //通过日期求星期
@@ -570,19 +562,12 @@
     }
     return weekDay;
 }
-
 //根据string返回date
 - (NSDate *)dateFromString:(NSString *)string withFormat:(NSString *)format {
     NSDateFormatter *inputFormatter = [[NSDateFormatter alloc] init];
     [inputFormatter setDateFormat:format];
     NSDate *date = [inputFormatter dateFromString:string];
-    //时区
-    NSTimeZone *zone = [NSTimeZone systemTimeZone];
-    //和格林尼治时间差
-    NSInteger timeOff = [zone secondsFromGMT];
-    //视察转化
-    NSDate *timeOffDate = [date dateByAddingTimeInterval:timeOff];
-    return timeOffDate;
+    return date;
 }
 //通过年月求每月天数
 - (NSInteger)DaysfromYear:(NSInteger)year andMonth:(NSInteger)month
