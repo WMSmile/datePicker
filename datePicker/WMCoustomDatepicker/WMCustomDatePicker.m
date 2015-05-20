@@ -125,9 +125,7 @@
     
     //获取当前日期，储存当前时间位置
     NSArray *indexArray = [self getNowDate:self.ScrollToDate];
-    if (myPickerView) {
-        [myPickerView removeFromSuperview];
-    }
+    myPickerView = nil;
     myPickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     myPickerView.showsSelectionIndicator = YES;
     myPickerView.backgroundColor = [UIColor clearColor];
