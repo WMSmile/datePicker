@@ -40,8 +40,9 @@
     武猛创作 （参考uudate的源代码 ）在此感谢uuDatepicker的作者    
      */
     
-    WMCustomDatePicker *picker = [[WMCustomDatePicker alloc]initWithframe:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 300) Delegate:self PickerStyle:WMDateStyle_HourMinute];
+    WMCustomDatePicker *picker = [[WMCustomDatePicker alloc]initWithframe:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 300) Delegate:self PickerStyle:WMDateStyle_YearMonthDay];
     picker.minLimitDate = [NSDate date];
+    picker.maxLimitDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60*30*12];
     _TF.inputView = picker;
     
     /*
