@@ -10,6 +10,7 @@
 typedef enum{
     
     WMDateStyle_YearMonthDayHourMinute = 0,
+    WMDateStyle_YearMonthDayHour,
     WMDateStyle_YearMonthDay,
     WMDateStyle_MonthDayHourMinute,
     WMDateStyle_HourMinute
@@ -37,6 +38,7 @@ typedef enum{
 @interface WMCustomDatePicker : UIView<UIPickerViewDataSource,UIPickerViewDelegate>
 @property (nonatomic, assign)id<WMCustomDatePickerDelegate>delegate;
 @property (nonatomic, assign) WMDateStyle datePickerStyle;
+@property (nonatomic, assign) BOOL hasToolbar; //Toolbar中含完成按钮
 @property (nonatomic, strong) NSDate *ScrollToDate;//滚到指定日期
 @property (nonatomic, strong) NSDate *maxLimitDate;//限制最大时间（没有设置默认2049）
 @property (nonatomic, strong) NSDate *minLimitDate;//限制最小时间（没有设置默认1970）
