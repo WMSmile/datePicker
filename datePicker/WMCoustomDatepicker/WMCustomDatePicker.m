@@ -19,6 +19,8 @@
 #define DATEPICKER_interval 1//设置分钟时间间隔
 #define DATEMAXFONT 20 //修改最大的文字大小
 
+#define DATEPICKER_TOOLBAR_HEIGTH 40
+
 #define DATE_GRAY [UIColor redColor];
 #define DATE_BLACK [UIColor blackColor];
 #define WMSCREENWEIGHT [UIScreen mainScreen].bounds.size.width
@@ -126,12 +128,30 @@
     //获取当前日期，储存当前时间位置
     NSArray *indexArray = [self getNowDate:self.ScrollToDate];
     myPickerView = nil;
-    myPickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    if (_hasToolbar)
+        myPickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, DATEPICKER_TOOLBAR_HEIGTH, self.frame.size.width, self.frame.size.height-DATEPICKER_TOOLBAR_HEIGTH)];
+    else
+        myPickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     myPickerView.showsSelectionIndicator = YES;
     myPickerView.backgroundColor = [UIColor clearColor];
     myPickerView.delegate = self;
     myPickerView.dataSource = self;
     [self addSubview:myPickerView];
+    
+    if (_hasToolbar) {
+        //添加TOOLBAR
+        UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, DATEPICKER_TOOLBAR_HEIGTH)];
+        [self addSubview:toolBar];
+        NSMutableArray *barButtonItems = [[NSMutableArray alloc]initWithCapacity:1];
+        UIBarButtonItem *toolBarDoneItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(pickerViewEndEdit)];
+        UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc]
+                                              initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                              target:self
+                                              action:NULL];
+        [barButtonItems addObject:flexibleSpaceItem];
+        [barButtonItems addObject:toolBarDoneItem];
+        [toolBar setItems:barButtonItems animated:NO];
+    }
     
     //调整为现在的时间
     for (int i=0; i<indexArray.count; i++) {
@@ -190,6 +210,8 @@
 
     if (self.datePickerStyle == WMDateStyle_YearMonthDayHourMinute)
         return @[year,month,day,hour,minute];
+    if (self.datePickerStyle == WMDateStyle_YearMonthDayHour)
+        return @[year,month,day,hour];
     if (self.datePickerStyle == WMDateStyle_YearMonthDay)
         return @[year,month,day];
     if (self.datePickerStyle == WMDateStyle_MonthDayHourMinute)
@@ -221,17 +243,19 @@
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     if (self.datePickerStyle == WMDateStyle_YearMonthDayHourMinute){
-        
         return 5;
     }
+    if (self.datePickerStyle == WMDateStyle_YearMonthDayHour) {
+        return 4;
+    }
     if (self.datePickerStyle == WMDateStyle_YearMonthDay){
-               return 3;
+        return 3;
     }
     if (self.datePickerStyle == WMDateStyle_MonthDayHourMinute){
-                return 4;
+        return 4;
     }
     if (self.datePickerStyle == WMDateStyle_HourMinute){
-               return 2;
+        return 2;
     }
     
     return 0;
@@ -247,6 +271,14 @@
         }
         if (component == 3) return DATEPICKER_HOUR;
         if (component == 4) return DATEPICKER_MINUTE/DATEPICKER_interval;
+    }
+    if (self.datePickerStyle == WMDateStyle_YearMonthDayHour) {
+        if (component == 0) return DATEPICKER_MAXDATE-DATEPICKER_MINDATE;
+        if (component == 1) return DATEPICKER_MONTH;
+        if (component == 2) {
+            return [self DaysfromYear:[yearArray[yearIndex] integerValue] andMonth:[monthArray[monthIndex] integerValue]];
+        }
+        if (component == 3) return DATEPICKER_HOUR;
     }
     if (self.datePickerStyle == WMDateStyle_YearMonthDay)
     {
@@ -283,6 +315,13 @@
             if (component==2) return 50*self.frame.size.width/320;
             if (component==3) return 50*self.frame.size.width/320;
             if (component==4) return 50*self.frame.size.width/320;
+        }
+            break;
+        case WMDateStyle_YearMonthDayHour:{
+            if (component==0) return 70*self.frame.size.width/320;
+            if (component==1) return 50*self.frame.size.width/320;
+            if (component==2) return 50*self.frame.size.width/320;
+            if (component==3) return 50*self.frame.size.width/320;
         }
             break;
         case WMDateStyle_YearMonthDay:{
@@ -345,7 +384,26 @@
             }
         }
             break;
-            
+       
+        case WMDateStyle_YearMonthDayHour:{
+            if (component==0) {
+                title = yearArray[row];
+                textColor = [self returnYearColorRow:row];
+            }
+            if (component==1) {
+                title = monthArray[row];
+                textColor = [self returnMonthColorRow:row];
+            }
+            if (component==2) {
+                title = dayArray[row];
+                textColor = [self returnDayColorRow:row];
+            }
+            if (component==3) {
+                title = hourArray[row];
+                textColor = [self returnHourColorRow:row];
+            }
+        }
+            break;
             
         case WMDateStyle_YearMonthDay:{
             if (component==0) {
@@ -435,7 +493,31 @@
             }
         }
             break;
+        
+        case WMDateStyle_YearMonthDayHour:{
             
+            if (component == 0) {
+                yearIndex = row;
+            }
+            if (component == 1) {
+                monthIndex = row;
+            }
+            if (component == 2) {
+                dayIndex = row;
+            }
+            if (component == 3) {
+                hourIndex = row;
+            }
+            if (component == 0 || component == 1 || component == 2){
+                [self DaysfromYear:[yearArray[yearIndex] integerValue] andMonth:[monthArray[monthIndex] integerValue]];
+                if (dayArray.count-1<dayIndex) {
+                    dayIndex = dayArray.count-1;
+                }
+                //                [pickerView reloadComponent:2];
+                
+            }
+        }
+            break;
             
         case WMDateStyle_YearMonthDay:{
             
@@ -504,6 +586,25 @@
 #pragma mark - WMdatapickerDelegate代理回调方法
 - (void)playTheDelegate
 {
+    //重置未设置时间 为初始值
+    switch (self.datePickerStyle) {
+        case WMDateStyle_YearMonthDayHourMinute:
+            break;
+        case WMDateStyle_YearMonthDayHour:
+            minuteIndex = 0;
+            break;
+        case WMDateStyle_YearMonthDay:
+            hourIndex = 0;
+            minuteIndex = 0;
+            break;
+        case WMDateStyle_MonthDayHourMinute:
+            break;
+        case WMDateStyle_HourMinute:
+            break;
+        default:
+            break;
+    }
+    
     self.date = [self dateFromString:[NSString stringWithFormat:@"%@%@%@%@%@",yearArray[yearIndex],monthArray[monthIndex],dayArray[dayIndex],hourArray[hourIndex],minuteArray[minuteIndex]] withFormat:@"yyyy年MM月dd日HH时mm分"];
     if ([_date compare:self.minLimitDate] == NSOrderedAscending) {
         NSArray *array = [self getNowDate:self.minLimitDate];
@@ -537,6 +638,13 @@
     }
 }
 
+#pragma mark - ToolBar
+- (void)pickerViewEndEdit{
+    UIViewController *superViewController = (UIViewController*)self.delegate;
+    [superViewController.view endEditing:YES];
+    [self playTheDelegate];
+}
+
 #pragma mark - 数据处理
 //通过日期求星期
 - (NSString*)getWeekDayWithYear:(NSString*)year month:(NSString*)month day:(NSString*)day
@@ -566,6 +674,7 @@
 - (NSDate *)dateFromString:(NSString *)string withFormat:(NSString *)format {
     NSDateFormatter *inputFormatter = [[NSDateFormatter alloc] init];
     [inputFormatter setDateFormat:format];
+    [inputFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     NSDate *date = [inputFormatter dateFromString:string];
     return date;
 }
