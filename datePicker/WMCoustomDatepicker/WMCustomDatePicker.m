@@ -542,26 +542,22 @@
 //通过日期求星期
 - (NSString*)getWeekDayWithYear:(NSString*)year month:(NSString*)month day:(NSString*)day
 {
-    NSInteger yearInt   = [year integerValue];
-    NSInteger monthInt  = [month integerValue];
-    NSInteger dayInt    = [day integerValue];
-    int c = 20;//世纪
-    int y = (int)yearInt -1;//年
-    int d = (int)dayInt;
-    int m = (int)monthInt;
-    int w =(y+(y/4)+(c/4)-2*c+(26*(m+1)/10)+d-1)%7;
-    NSString *weekDay = @"";
-    switch (w) {
-        case 0: weekDay = @"周日";    break;
-        case 1: weekDay = @"周一";    break;
-        case 2: weekDay = @"周二";    break;
-        case 3: weekDay = @"周三";    break;
-        case 4: weekDay = @"周四";    break;
-        case 5: weekDay = @"周五";    break;
-        case 6: weekDay = @"周六";    break;
-        default:break;
-    }
-    return weekDay;
+    NSString *dateStr = [NSString stringWithFormat:@"%@%@%@",year,month,day];
+    NSDate *inputDate = [self dateFromString:dateStr withFormat:@"yyyy年MM月dd日"];
+    NSArray *weekdays = [NSArray arrayWithObjects: [NSNull null], @"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六", nil];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_8_0 // 当前支持的sdk版本是否低于6.0
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSCalendarUnit calendarUnit = NSWeekdayCalendarUnit;
+
+#else
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+#endif
+    
+    NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+    [calendar setTimeZone: timeZone];
+    NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
+    return [weekdays objectAtIndex:theComponents.weekday];
 }
 //根据string返回date
 - (NSDate *)dateFromString:(NSString *)string withFormat:(NSString *)format {
