@@ -43,9 +43,36 @@ typedef enum{
 
 @property (nonatomic, strong) NSDate *date;//选择器的时间
 
+/**
+ *  初始化datepicker
+ *
+ *  @param frame       位置
+ *  @param delegate    代理
+ *  @param WMDateStyle 类型
+ *
+ *  @return WMCustomDatePicker的对象
+ */
 - (id)initWithframe:(CGRect)frame Delegate:(id<WMCustomDatePickerDelegate>)delegate PickerStyle:(WMDateStyle)WMDateStyle;
-
-
+/**
+ *  初始化datepicker
+ *
+ *  @param frame       位置
+ *  @param WMDateStyle 类型
+ *  @param finish      block块的返回
+ *
+ *  @return WMCustomDatePicker的对象
+ */
+- (id)initWithframe:(CGRect)frame PickerStyle:(WMDateStyle)WMDateStyle  didSelectedDateFinish:(void(^)(WMCustomDatePicker *picker,NSDate *date))finish;
+/**
+ *  初始化datepicker
+ *
+ *  @param frame       位置
+ *  @param WMDateStyle 类型
+ *  @param finishBack  black块的返回
+ *
+ *  @return WMCustomDatePicker的对象
+ */
+- (id)initWithframe:(CGRect)frame PickerStyle:(WMDateStyle)WMDateStyle  didSelectedDateFinishBack:(void(^)(WMCustomDatePicker *picker,NSString *year,NSString *month,NSString *day,NSString *hour,NSString *minute,NSString *weekDay))finishBack;
 
 
 @end

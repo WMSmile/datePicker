@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "WMCustomDatePicker.h"
+#import "NSString+DateToString.h"
 
 @interface ViewController ()<WMCustomDatePickerDelegate>
 {
@@ -40,7 +41,18 @@
     武猛创作 （参考uudate的源代码 ）在此感谢uuDatepicker的作者    
      */
     
-    WMCustomDatePicker *picker = [[WMCustomDatePicker alloc]initWithframe:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 300) Delegate:self PickerStyle:WMDateStyle_YearMonthDay];
+//    WMCustomDatePicker *picker = [[WMCustomDatePicker alloc]initWithframe:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 300) Delegate:self PickerStyle:WMDateStyle_YearMonthDay];
+//    picker.minLimitDate = [NSDate date];
+//    picker.maxLimitDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60*30*12];
+//    _TF.inputView = picker;
+    
+    
+//    block快的使用方法
+    WMCustomDatePicker *picker = [[WMCustomDatePicker alloc]initWithframe:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 300) PickerStyle:WMDateStyle_YearMonthDayHourMinute didSelectedDateFinishBack:^(WMCustomDatePicker *picker, NSString *year, NSString *month, NSString *day, NSString *hour, NSString *minute, NSString *weekDay) {
+        NSLog(@"%@====%@=====%@=====%@=====%@=====%@=====",year,month,day,hour,minute,weekDay);
+        _TF.text = [NSString stringWithFormat:@"%@%@%@%@%@%@",year,month,day,hour,minute,weekDay];
+    }];
+
     picker.minLimitDate = [NSDate date];
     picker.maxLimitDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60*30*12];
     _TF.inputView = picker;
@@ -72,17 +84,8 @@
 
 - (void)finishDidSelectDatePicker:(WMCustomDatePicker *)datePicker date:(NSDate *)date
 {
-    NSLog(@"%@_____formatterDate == %@",date,[self dateFromString:date withFormat:@"yyMMdd HH:mm"]);
+    NSLog(@"%@_____formatterDate == %@",date,[NSString dateFromString:date withFormat:@"yyMMdd HH:mm"]);
 }
-
-//根据date返回string
-- (NSString *)dateFromString:(NSDate *)date withFormat:(NSString *)format {
-    NSDateFormatter *inputFormatter = [[NSDateFormatter alloc] init];
-    [inputFormatter setDateFormat:format];
-    NSString *dateStr = [inputFormatter stringFromDate:date];
-    return dateStr;
-}
-
 /**
  * 取消输入法
  */

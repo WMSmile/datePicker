@@ -8,6 +8,8 @@
 
 #import "WMCustomDatePicker.h"
 #import "WMDatepicker_DateModel.h"
+typedef void(^finish)(WMCustomDatePicker *picker,NSDate *date);
+typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *month,NSString *day,NSString *hour,NSString *minute,NSString *weekDay);
 
 #define DATEPICKER_MAXDATE 2050
 #define DATEPICKER_MINDATE 1970
@@ -46,7 +48,8 @@
     NSInteger minuteIndex;
 }
 @property (nonatomic,strong)NSDateFormatter *inputFormatter;
-
+@property (nonatomic,copy) finishBack finishedBack;
+@property (nonatomic,copy) finish finished;
 
 @end
 
@@ -56,6 +59,17 @@
 {
     self.datePickerStyle = WMDateStyle;
     self.delegate = delegate;
+    return [self initWithFrame:frame];
+}
+- (id)initWithframe:(CGRect)frame PickerStyle:(WMDateStyle)WMDateStyle  didSelectedDateFinish:(void(^)(WMCustomDatePicker *picker,NSDate *date))finish{
+    self.datePickerStyle = WMDateStyle;
+    self.finished = finish;
+    return [self initWithFrame:frame];
+}
+- (id)initWithframe:(CGRect)frame PickerStyle:(WMDateStyle)WMDateStyle  didSelectedDateFinishBack:(void(^)(WMCustomDatePicker *picker,NSString *year,NSString *month,NSString *day,NSString *hour,NSString *minute,NSString *weekDay))finishBack;
+{
+    self.datePickerStyle = WMDateStyle;
+    self.finishedBack = finishBack;
     return [self initWithFrame:frame];
 }
 
@@ -536,6 +550,13 @@
         
         [self.delegate finishDidSelectDatePicker:self date:_date];
     }
+    if (_finished) {
+        self.finished(self,_date);
+    }
+    if (_finishedBack) {
+        self.finishedBack(self,yearArray[yearIndex],monthArray[monthIndex],dayArray[dayIndex],hourArray[hourIndex],minuteArray[minuteIndex],strWeekDay);
+    }
+    
 }
 
 #pragma mark - 数据处理

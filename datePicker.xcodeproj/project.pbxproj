@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		04D07E0B1AF1FFA30002FF68 /* WMCustomDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D07E081AF1FFA30002FF68 /* WMCustomDatePicker.m */; };
 		04D07E0C1AF1FFA30002FF68 /* WMDatepicker_DateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D07E0A1AF1FFA30002FF68 /* WMDatepicker_DateModel.m */; };
+		04D3A84F1C576AE900B108F8 /* NSString+DateToString.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D3A84E1C576AE900B108F8 /* NSString+DateToString.m */; };
 		04DC5A0E1AF0D74300C46555 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC5A0D1AF0D74300C46555 /* main.m */; };
 		04DC5A111AF0D74300C46555 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC5A101AF0D74300C46555 /* AppDelegate.m */; };
 		04DC5A141AF0D74300C46555 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC5A131AF0D74300C46555 /* ViewController.m */; };
@@ -33,6 +34,8 @@
 		04D07E081AF1FFA30002FF68 /* WMCustomDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMCustomDatePicker.m; sourceTree = "<group>"; };
 		04D07E091AF1FFA30002FF68 /* WMDatepicker_DateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMDatepicker_DateModel.h; sourceTree = "<group>"; };
 		04D07E0A1AF1FFA30002FF68 /* WMDatepicker_DateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMDatepicker_DateModel.m; sourceTree = "<group>"; };
+		04D3A84D1C576AE900B108F8 /* NSString+DateToString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DateToString.h"; sourceTree = "<group>"; };
+		04D3A84E1C576AE900B108F8 /* NSString+DateToString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DateToString.m"; sourceTree = "<group>"; };
 		04DC5A081AF0D74300C46555 /* datePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = datePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04DC5A0C1AF0D74300C46555 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04DC5A0D1AF0D74300C46555 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -77,6 +80,15 @@
 			path = WMCoustomDatepicker;
 			sourceTree = "<group>";
 		};
+		04D3A84C1C576AE900B108F8 /* categroy */ = {
+			isa = PBXGroup;
+			children = (
+				04D3A84D1C576AE900B108F8 /* NSString+DateToString.h */,
+				04D3A84E1C576AE900B108F8 /* NSString+DateToString.m */,
+			);
+			path = categroy;
+			sourceTree = "<group>";
+		};
 		04DC59FF1AF0D74300C46555 = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +110,7 @@
 		04DC5A0A1AF0D74300C46555 /* datePicker */ = {
 			isa = PBXGroup;
 			children = (
+				04D3A84C1C576AE900B108F8 /* categroy */,
 				04D07E061AF1FFA30002FF68 /* WMCoustomDatepicker */,
 				04DC5A0F1AF0D74300C46555 /* AppDelegate.h */,
 				04DC5A101AF0D74300C46555 /* AppDelegate.m */,
@@ -238,6 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04D07E0C1AF1FFA30002FF68 /* WMDatepicker_DateModel.m in Sources */,
+				04D3A84F1C576AE900B108F8 /* NSString+DateToString.m in Sources */,
 				04DC5A141AF0D74300C46555 /* ViewController.m in Sources */,
 				04DC5A111AF0D74300C46555 /* AppDelegate.m in Sources */,
 				04D07E0B1AF1FFA30002FF68 /* WMCustomDatePicker.m in Sources */,
