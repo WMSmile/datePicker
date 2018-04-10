@@ -11,8 +11,10 @@ typedef enum{
     
     WMDateStyle_YearMonthDayHourMinute = 0,
     WMDateStyle_YearMonthDay,
+    WMDateStyle_YearMonth,
     WMDateStyle_MonthDayHourMinute,
     WMDateStyle_HourMinute
+
     
 }WMDateStyle;
 @class WMCustomDatePicker;

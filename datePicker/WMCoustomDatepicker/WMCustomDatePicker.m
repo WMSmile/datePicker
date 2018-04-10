@@ -207,10 +207,13 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
         return @[year,month,day,hour,minute];
     if (self.datePickerStyle == WMDateStyle_YearMonthDay)
         return @[year,month,day];
+    if (self.datePickerStyle == WMDateStyle_YearMonth)
+        return @[year,month];
     if (self.datePickerStyle == WMDateStyle_MonthDayHourMinute)
         return @[month,day,hour,minute];
     if (self.datePickerStyle == WMDateStyle_HourMinute)
         return @[hour,minute];
+
     return nil;
 }
 //武猛添加
@@ -242,12 +245,16 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
     if (self.datePickerStyle == WMDateStyle_YearMonthDay){
                return 3;
     }
+    if (self.datePickerStyle == WMDateStyle_YearMonth){
+        return 2;
+    }
     if (self.datePickerStyle == WMDateStyle_MonthDayHourMinute){
                 return 4;
     }
     if (self.datePickerStyle == WMDateStyle_HourMinute){
                return 2;
     }
+
     
     return 0;
 }
@@ -271,6 +278,11 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
             return [self DaysfromYear:[yearArray[yearIndex] integerValue] andMonth:[monthArray[monthIndex] integerValue]];
         }
     }
+    if (self.datePickerStyle == WMDateStyle_YearMonth)
+    {
+        if (component == 0) return DATEPICKER_MAXDATE-DATEPICKER_MINDATE;
+        if (component == 1) return DATEPICKER_MONTH;
+    }
     if (self.datePickerStyle == WMDateStyle_MonthDayHourMinute)
     {
         if (component == 0) return DATEPICKER_MONTH;
@@ -285,6 +297,8 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
         if (component == 0) return DATEPICKER_HOUR;
         else                return DATEPICKER_MINUTE/DATEPICKER_interval;
     }
+
+
     return 0;
 }
 
@@ -304,6 +318,11 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
             if (component==0) return 70*self.frame.size.width/320;
             if (component==1) return 100*self.frame.size.width/320;
             if (component==2) return 50*self.frame.size.width/320;
+        }
+            break;
+        case WMDateStyle_YearMonth:{
+            if (component==0) return 100*self.frame.size.width/320;
+            if (component==1) return 100*self.frame.size.width/320;
         }
             break;
         case WMDateStyle_MonthDayHourMinute:{
@@ -374,6 +393,17 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
             if (component==2) {
                 title = dayArray[row];
                 textColor = [self returnDayColorRow:row];
+            }
+        }
+            break;
+        case WMDateStyle_YearMonth:{
+            if (component==0) {
+                title = yearArray[row];
+                textColor = [self returnYearColorRow:row];
+            }
+            if (component==1) {
+                title = monthArray[row];
+                textColor = [self returnMonthColorRow:row];
             }
         }
             break;
@@ -469,6 +499,16 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
                     dayIndex = dayArray.count-1;
                 }
                 //                [pickerView reloadComponent:2];
+            }
+        }
+            break;
+        case WMDateStyle_YearMonth:{
+            
+            if (component == 0) {
+                yearIndex = row;
+            }
+            if (component == 1) {
+                monthIndex = row;
             }
         }
             break;
