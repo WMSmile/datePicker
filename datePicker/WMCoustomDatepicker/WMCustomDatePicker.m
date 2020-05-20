@@ -78,7 +78,8 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor =[UIColor whiteColor];
-        myPickerView =  [[UIPickerView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        
+        [self initViews];
     }
     return self;
 }
@@ -90,6 +91,16 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
     }
     return self;
 }
+- (void)initViews{
+
+    myPickerView =  [[UIPickerView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    myPickerView.showsSelectionIndicator = YES;
+    myPickerView.backgroundColor = [UIColor clearColor];
+    myPickerView.delegate = self;
+    myPickerView.dataSource = self;
+    [self addSubview:myPickerView];
+}
+
 //初始化
 - (void)drawRect:(CGRect)rect
 {
@@ -142,11 +153,7 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
     //获取当前日期，储存当前时间位置
     NSArray *indexArray = [self getNowDate:self.ScrollToDate];
     myPickerView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-    myPickerView.showsSelectionIndicator = YES;
-    myPickerView.backgroundColor = [UIColor clearColor];
-    myPickerView.delegate = self;
-    myPickerView.dataSource = self;
-    [self addSubview:myPickerView];
+
     
     //调整为现在的时间
     for (int i=0; i<indexArray.count; i++) {
@@ -538,10 +545,10 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
             
             
         case WMDateStyle_HourMinute:{
-            if (component == 3) {
+            if (component == 0) {
                 hourIndex = row;
             }
-            if (component == 4) {
+            if (component == 1) {
                 minuteIndex = row;
             }
         }
@@ -560,6 +567,7 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
 - (void)playTheDelegate
 {
     self.date = [self dateFromString:[NSString stringWithFormat:@"%@%@%@%@%@",yearArray[yearIndex],monthArray[monthIndex],dayArray[dayIndex],hourArray[hourIndex],minuteArray[minuteIndex]] withFormat:@"yyyy年MM月dd日HH时mm分"];
+//    NSLog(@"current = %@min = %@max = %@",_date,self.minLimitDate,self.maxLimitDate);
     if ([_date compare:self.minLimitDate] == NSOrderedAscending) {
         NSArray *array = [self getNowDate:self.minLimitDate];
         for (int i=0; i<array.count; i++) {
