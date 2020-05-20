@@ -78,6 +78,7 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor =[UIColor whiteColor];
+        myPickerView =  [[UIPickerView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     }
     return self;
 }
@@ -140,8 +141,7 @@ typedef void(^finishBack)(WMCustomDatePicker *picker,NSString *year,NSString *mo
     
     //获取当前日期，储存当前时间位置
     NSArray *indexArray = [self getNowDate:self.ScrollToDate];
-    myPickerView = nil;
-    myPickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    myPickerView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     myPickerView.showsSelectionIndicator = YES;
     myPickerView.backgroundColor = [UIColor clearColor];
     myPickerView.delegate = self;

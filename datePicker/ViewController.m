@@ -60,33 +60,33 @@
     
      //年月日
     WMCustomDatePicker *picker1 = [[WMCustomDatePicker alloc]initWithframe:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 300) PickerStyle:WMDateStyle_YearMonthDay didSelectedDateFinishBack:^(WMCustomDatePicker *picker, NSString *year, NSString *month, NSString *day, NSString *hour, NSString *minute, NSString *weekDay) {
-        NSLog(@"%@====%@=====%@=====%@=====%@=====%@=====",year,month,day,hour,minute,weekDay);
-        self.ymdTF.text = [NSString stringWithFormat:@"%@%@%@%@%@%@",year,month,day,hour,minute,weekDay];
+        NSLog(@"%@====%@=====%@=",year,month,day);
+        self.ymdTF.text = [NSString stringWithFormat:@"%@%@%@",year,month,day];
     }];
     
-    picker.minLimitDate = [NSDate date];
-    picker.maxLimitDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60*30*12];
+    picker1.minLimitDate = [NSDate date];
+    picker1.maxLimitDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60*30*12];
     self.ymdTF.inputView = picker1;
     
     
      //年月
     WMCustomDatePicker *picker2 = [[WMCustomDatePicker alloc]initWithframe:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 300) PickerStyle:WMDateStyle_YearMonth didSelectedDateFinishBack:^(WMCustomDatePicker *picker, NSString *year, NSString *month, NSString *day, NSString *hour, NSString *minute, NSString *weekDay) {
-        NSLog(@"%@====%@=====%@=====%@=====%@=====%@=====",year,month,day,hour,minute,weekDay);
-        self.ymTF.text = [NSString stringWithFormat:@"%@%@%@%@%@%@",year,month,day,hour,minute,weekDay];
+        NSLog(@"%@====%@=====",year,month);
+        self.ymTF.text = [NSString stringWithFormat:@"%@%@",year,month];
     }];
     
-    picker.minLimitDate = [NSDate date];
-    picker.maxLimitDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60*30*12];
+    picker2.minLimitDate = [NSDate date];
+    picker2.maxLimitDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60*30*12];
     self.ymTF.inputView = picker2;
     
      //月日时分秒
     WMCustomDatePicker *picker3 = [[WMCustomDatePicker alloc]initWithframe:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 300) PickerStyle:WMDateStyle_MonthDayHourMinute didSelectedDateFinishBack:^(WMCustomDatePicker *picker, NSString *year, NSString *month, NSString *day, NSString *hour, NSString *minute, NSString *weekDay) {
-        NSLog(@"%@====%@=====%@=====%@=====%@=====%@=====",year,month,day,hour,minute,weekDay);
-        self.mdhmsTF.text = [NSString stringWithFormat:@"%@%@%@%@%@%@",year,month,day,hour,minute,weekDay];
+        NSLog(@"%@=====%@=====%@=====%@=====%@=====",month,day,hour,minute,weekDay);
+        self.mdhmsTF.text = [NSString stringWithFormat:@"%@%@%@%@%@",month,day,hour,minute,weekDay];
     }];
     
-    picker.minLimitDate = [NSDate date];
-    picker.maxLimitDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60*30*12];
+    picker3.minLimitDate = [NSDate date];
+    picker3.maxLimitDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60*30*12];
     self.mdhmsTF.inputView = picker3;
     
     
@@ -96,8 +96,8 @@
     
      //时分
     WMCustomDatePicker *picker5 = [[WMCustomDatePicker alloc]initWithframe:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 300) Delegate:self PickerStyle:WMDateStyle_HourMinute];
-    picker.minLimitDate = [NSDate date];
-    picker.maxLimitDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60*30*12];
+    picker5.minLimitDate = [NSDate date];
+    picker5.maxLimitDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60*30*12];
     self.hmTF.inputView = picker5;
 
     
@@ -106,8 +106,8 @@
 #pragma mark - WMCustomDatePickerDelegate
 - (void)finishDidSelectDatePicker:(WMCustomDatePicker *)datePicker year:(NSString *)year month:(NSString *)month day:(NSString *)day hour:(NSString *)hour minute:(NSString *)minute weekDay:(NSString *)weekDay
 {
-    NSLog(@"%@====%@=====%@=====%@=====%@=====%@=====",year,month,day,hour,minute,weekDay);
-    self.hmTF.text = [NSString stringWithFormat:@"%@%@%@%@%@%@",year,month,day,hour,minute,weekDay];
+    NSLog(@"%@=====%@=====",hour,minute);
+    self.hmTF.text = [NSString stringWithFormat:@"%@%@",hour,minute];
 }
 
 - (void)finishDidSelectDatePicker:(WMCustomDatePicker *)datePicker date:(NSDate *)date
