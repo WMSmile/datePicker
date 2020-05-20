@@ -1,22 +1,29 @@
 # datePicker
-主要功能是 ：实现四种时间选择器的模式  
+主要功能是 ：实现四种时间选择器的模式
+
+```
      WMDateStyle_YearMonthDayHourMinute //年月日时分
      WMDateStyle_YearMonthDay,//年月日
      WMDateStyle_MonthDayHourMinute,//月日时分
      WMDateStyle_HourMinute//时分
+```
 可以加上时间限制，不可选为红色，可选为黑色
 
-在WMCustomDatePicker.m中
-可以修改一下内容
+在**WMCustomDatePicker.m**中可以修改一下内容
+
+```
 #define DATEPICKER_interval 1//设置分钟时间间隔
 #define DATEMAXFONT 20 //修改最大的文字大小
 //改变颜色
 #define DATE_GRAY [UIColor redColor];//不可选的状态
 #define DATE_BLACK [UIColor blackColor];//可选状态
 
+```
 
 
 使用说明：
+
+```
     _TF = [[UITextField alloc]initWithFrame:CGRectMake(20, 50, 300, 100)];
     _TF.placeholder = @"请输入时间";
     _TF.layer.cornerRadius = 4;
@@ -54,3 +61,5 @@
      
      
      */
+
+```
